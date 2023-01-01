@@ -1,67 +1,74 @@
 
-<h2><a href="https://leetcode.com/problems/sum-of-even-numbers-after-queries/">985. Sum of Even Numbers After Queries</a></h2>
+<h2><a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/">150. Evaluate Reverse Polish Notation</a></h2>
 <h3>Medium</h3>
 <hr>
 <div><p>
- You are given an integer array nums and an array queries where queries[i] = [vali, indexi].
+You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.
 
-For each query i, first, apply nums[indexi] = nums[indexi] + vali, then print the sum of the even values of nums.
+Evaluate the expression. Return an integer that represents the value of the expression.
 
-Return an integer array answer where answer[i] is the answer to the ith query.
+Note that:
+
+The valid operators are '+', '-', '*', and '/'.
+Each operand may be an integer or another expression.
+The division between two integers always truncates toward zero.
+There will not be any division by zero.
+The input represents a valid arithmetic expression in a reverse polish notation.
+The answer and all the intermediate calculations can be represented in a 32-bit integer.
 </p>
 
 
 <p><strong>Example 1:</strong></p>
-<pre><strong>Input:</strong>   nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]
-<strong>Output:</strong> [8,6,2,4]
+<pre><strong>Input:</strong>     tokens = ["2","1","+","3","*"]
+<strong>Output:</strong> 9
 </pre>
 <pre>
-Explanation: At the beginning, the array is [1,2,3,4].
-After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.
-After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.
-After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.
-After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.
-  </pre>
-  
-Example 2:
+((2 + 1) * 3) = 9
 
-Input: nums = [1], queries = [[4,0]]
-Output: [0]
+  </pre>
+
  
 
 Constraints:
 <pre>
-1 <= nums.length <= 104
--104 <= nums[i] <= 104
-1 <= queries.length <= 104
--104 <= vali <= 104
-0 <= indexi < nums.length
+1 <= tokens.length <= 104
+tokens[i] is either an operator: "+", "-", "*", or "/", or an integer in the range [-200, 200].
 </pre>
 <hr>
  <h2><strong><b>Solution</b></strong></h2>
  <br>
  <pre>
  
-          class Solution {
-          public:
-              vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& q) {
-                  int ans=0;
-                  for(int i=0;i<nums.size();i++)
-                  {
-                      if(nums[i]%2==0) ans+=nums[i];
-                  }
-                  vector<int> v;
-                  for(int i=0;i<q.size();i++)
-                  {
-                      int val=q[i][0],ind=q[i][1];
-                      if(nums[ind]%2==0) ans-=nums[ind];
-                      nums[ind]+=val;
-                      if(nums[ind]%2==0) ans+=nums[ind];
-                      v.push_back(ans);
-                  }
-                  return v;
-              }
-          };
+      class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        ios::sync_with_stdio(0); cin.tie(0);cout.tie(0);
+        stack<long> st; 
+        
+        for(int i=0;i<tokens.size();i++)
+        {
+            if(tokens[i]=="+" || //check token[i]== +, - ,/ ,*
+               tokens[i]=="-" || 
+               tokens[i]=="*" || 
+               tokens[i]=="/")  
+            { 
+                char c=tokens[i][0];
+                long a=st.top(); st.pop();
+                long b=st.top(); st.pop();
+                switch(c)
+                {
+                    case '+': st.push(b+a); break;
+                    case '-': st.push(b-a); break;
+                    case '*': st.push(b*a); break;
+                    case '/': st.push(b/a); break;
+                }
+            }
+            else  st.push(stoi(tokens[i]));  
+            
+        }
+        return st.top();
+    }
+};
           
  </pre>
 
