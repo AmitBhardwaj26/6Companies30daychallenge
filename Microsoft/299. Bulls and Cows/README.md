@@ -20,52 +20,45 @@ The hint should be formatted as "xAyB", where x is the number of bulls and y is 
 <strong>Output:</strong>"1A3B"
 </pre>
 <pre>
-Explanation: At the beginning, the array is [1,2,3,4].
-After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.
-After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.
-After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.
-After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.
+Explanation:  Bulls are connected with a '|' and cows are underlined:
+"1807"
+  |
+"7810"
   </pre>
   
-Example 2:
 
-Input: nums = [1], queries = [[4,0]]
-Output: [0]
- 
 
 Constraints:
 <pre>
-1 <= nums.length <= 104
--104 <= nums[i] <= 104
-1 <= queries.length <= 104
--104 <= vali <= 104
-0 <= indexi < nums.length
+1 <= secret.length, guess.length <= 1000
+secret.length == guess.length
+secret and guess consist of digits only.
 </pre>
 <hr>
  <h2><strong><b>Solution</b></strong></h2>
  <br>
  <pre>
- 
-          class Solution {
-          public:
-              vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& q) {
-                  int ans=0;
-                  for(int i=0;i<nums.size();i++)
-                  {
-                      if(nums[i]%2==0) ans+=nums[i];
-                  }
-                  vector<int> v;
-                  for(int i=0;i<q.size();i++)
-                  {
-                      int val=q[i][0],ind=q[i][1];
-                      if(nums[ind]%2==0) ans-=nums[ind];
-                      nums[ind]+=val;
-                      if(nums[ind]%2==0) ans+=nums[ind];
-                      v.push_back(ans);
-                  }
-                  return v;
-              }
-          };
-          
+ class Solution {
+public:
+    string getHint(string secret, string guess) {
+        unordered_map<int,int> m;
+        int n=secret.size();
+        int A=0,B=0;
+        for(int i=0;i<n;i++)
+        {
+           if(secret[i]==guess[i]) A++; 
+           else m[secret[i]]++;
+        } 
+        for(int i=0;i<n;i++)
+        {
+           if(secret[i]!=guess[i] && m[guess[i]]>0 ) 
+           {
+               m[guess[i]]--;
+               B++;
+           } 
+        }
+        return to_string(A)+ 'A'+ to_string(B) + 'B';
+    }
+};
  </pre>
 
