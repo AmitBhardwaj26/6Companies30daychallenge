@@ -27,26 +27,27 @@ The substrings containing at least one occurrence of the characters a, b and c a
  <br>
  <pre>
  
-          class Solution {
-          public:
-              vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& q) {
-                  int ans=0;
-                  for(int i=0;i<nums.size();i++)
-                  {
-                      if(nums[i]%2==0) ans+=nums[i];
-                  }
-                  vector<int> v;
-                  for(int i=0;i<q.size();i++)
-                  {
-                      int val=q[i][0],ind=q[i][1];
-                      if(nums[ind]%2==0) ans-=nums[ind];
-                      nums[ind]+=val;
-                      if(nums[ind]%2==0) ans+=nums[ind];
-                      v.push_back(ans);
-                  }
-                  return v;
-              }
-          };
+      class Solution {
+        public:
+            int numberOfSubstrings(string s) {
+                int a[3]={0},i=0,j=0,n=s.size(),ans=0;
+                while(j<n)
+                {
+                    while(j<n && (a[0]==0 || a[1]==0 || a[2]==0 )) { a[s[j]-'a']++; j++; }
+                    if(a[0]>0 && a[1]>0 && a[2]>0) ans+=n-j+1;
+                    a[s[i]-'a']--;
+                    i++;
+                    //cout<<ans<<" ";
+                }
+                while(i<j)
+                {
+                    if(a[0]>0 && a[1]>0 && a[2]>0) ans+=n-j+1;
+                    a[s[i]-'a']--;
+                    i++;
+                }
+                return ans;
+            }
+        };
           
  </pre>
 
