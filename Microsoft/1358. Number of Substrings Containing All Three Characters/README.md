@@ -20,11 +20,7 @@ Explanation: The substrings containing at least one occurrence of the characters
 
 Constraints:
 <pre>
-1 <= nums.length <= 104
--104 <= nums[i] <= 104
-1 <= queries.length <= 104
--104 <= vali <= 104
-0 <= indexi < nums.length
+The substrings containing at least one occurrence of the characters a, b and c are "abc", "abca", "abcab", "abcabc", "bca", "bcab", "bcabc", "cab", "cabc" and "abc" (again). 
 </pre>
 <hr>
  <h2><strong><b>Solution</b></strong></h2>
